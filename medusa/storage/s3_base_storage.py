@@ -495,7 +495,8 @@ class S3BaseStorage(AbstractStorage):
         )
 
     @staticmethod
-    def file_matches_storage(src: pathlib.Path, cached_item: ManifestObject, threshold=None, enable_md5_checks=False):
+    def file_matches_storage(src: pathlib.Path, cached_item: ManifestObject, threshold=None, enable_md5_checks=False,
+                              chunk_size=None):
 
         threshold = int(threshold) if threshold else -1
 
@@ -503,7 +504,8 @@ class S3BaseStorage(AbstractStorage):
         if not enable_md5_checks:
             md5_hash = None
         elif src.stat().st_size >= threshold > 0:
-            md5_hash = AbstractStorage.md5_multipart(src)
+            chunk_size_bytes = AbstractStorage._human_size_to_bytes(chunk_size) if chunk_size else None
+            md5_hash = AbstractStorage.md5_multipart(src, chunk_size_bytes)
         else:
             md5_hash = AbstractStorage.generate_md5_hash(src)
 
