@@ -106,8 +106,9 @@ concurrent_transfers = 1
 
 ; Minimum size above which S3 uploads use multipart.
 ; Also determines the checksum algorithm used for verification.
-; Defaults to 20MB (20971520 bytes).
-multi_part_upload_threshold = 20971520
+; Accepts a human-readable size (20MB) or, for backward compatibility, a raw byte count
+; (20971520). Defaults to 20MB.
+multi_part_upload_threshold = 20MB
 
 ; Chunk size for multipart uploads. Defaults to 50MB.
 ; For large SSTables (tens or hundreds of GB), increasing this reduces the number of parts

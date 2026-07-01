@@ -482,4 +482,8 @@ class AbstractStorage(abc.ABC):
                 size = float(cleaned_size_str.rstrip(unit))
                 return int(size * multiplier)
 
+        # no unit suffix: assume the value is already a byte count. Keeps configs written
+        # before human-readable sizes were supported (e.g. multi_part_upload_threshold) working.
+        return int(float(cleaned_size_str))
+
         raise ValueError(f"Invalid human-friendly size format: {size_str}")

@@ -157,7 +157,7 @@ class AzureStorage(AbstractStorage):
         src_path = Path(src)
         file_path = AbstractStorage.path_maybe_with_parent(dest, src_path)
 
-        if blob.size < int(self.config.multi_part_upload_threshold):
+        if blob.size < AbstractStorage._human_size_to_bytes(str(self.config.multi_part_upload_threshold)):
             workers = 1
         else:
             workers = int(self.config.concurrent_transfers)
